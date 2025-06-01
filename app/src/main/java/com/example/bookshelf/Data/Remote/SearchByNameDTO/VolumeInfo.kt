@@ -2,8 +2,8 @@ package com.example.bookshelf.Data.Remote.SearchByNameDTO
 
 data class VolumeInfo(
     val allowAnonLogging: Boolean,
-    val authors: List<String>,
-    val averageRating: Float,
+    val authors: List<String>?,
+    val averageRating: Float?,
     val canonicalVolumeLink: String,
     val categories: List<String>,
     val contentVersion: String,

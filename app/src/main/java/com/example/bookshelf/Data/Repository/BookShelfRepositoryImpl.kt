@@ -13,8 +13,9 @@ class BookShelfRepositoryImpl @Inject constructor(
     override suspend fun getBookByName(
         bookName: String,
         apiKey: String
-    ): List<BookByBookNameDto> {
-        return api.getBookByName(bookName,apiKey)
+    ): BookByBookNameDto {
+        val query = "intitle:$bookName"
+        return api.getBookByName(query,apiKey)
     }
 
     override suspend fun getBookByNameAndAuthor(

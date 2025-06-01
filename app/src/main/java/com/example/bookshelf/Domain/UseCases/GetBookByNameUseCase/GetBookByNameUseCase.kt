@@ -14,11 +14,11 @@ import javax.inject.Inject
 class GetBookByNameUseCase @Inject constructor(
     private val bookShelfRepository : BookShelfRepository
 ) {
-    operator fun invoke(bookName: String): Flow<Resource<List<BookByBookName>>> = flow {
+    operator fun invoke(bookName: String): Flow<Resource<BookByBookName>> = flow {
         try {
             emit(Resource.Loading())
             val books = bookShelfRepository.getBookByName(bookName, Httpdetails.API_KEY)
-                .map { it.toBookByBookName() }
+                .toBookByBookName()
             emit(Resource.Success(books))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An Unknown Error Occurred"))

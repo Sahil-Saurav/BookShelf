@@ -12,7 +12,7 @@ interface GoogleBooksApi {
     suspend fun getBookByName(
         @Query("q")bookName: String,
         @Query("key")apiKey: String
-    ): List<BookByBookNameDto>
+    ): BookByBookNameDto
 
     @GET("volumes")
     suspend fun getBookByNameAndAuthor(
