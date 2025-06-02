@@ -3,6 +3,7 @@ package com.example.bookshelf.Presentation.HomeScreen.Components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -85,6 +86,8 @@ fun BookListCard(book: Item){
                     )
                 }
                 Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(2.dp)
@@ -95,13 +98,13 @@ fun BookListCard(book: Item){
                         contentDescription = "Rating",
                         tint = colorResource(R.color.Rating_Star),
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = "${book.volumeInfo.averageRating?:"N/A"}",
                         color = colorResource(R.color.Rating_Star),
-                        fontSize = 24.sp,
+                        fontSize = 16.sp,
                         fontFamily = wdxllubrifont
                     )
                 }

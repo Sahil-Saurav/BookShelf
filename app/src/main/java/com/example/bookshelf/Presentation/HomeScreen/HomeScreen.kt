@@ -57,6 +57,7 @@ fun HomeScreen(
     Box(modifier = modifier
         .fillMaxSize()
         .background(colorResource(R.color.Primary_Background_Dark))
+        .padding(8.dp)
         .systemBarsPadding()
         )
     {
