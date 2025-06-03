@@ -13,7 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bookshelf.Presentation.HomeScreen.HomeScreen
-import com.example.bookshelf.Presentation.HomeScreen.HomeScreenViewModel
+import com.example.bookshelf.Presentation.SearchScreen.SearchScreenViewModel
 import com.example.bookshelf.Presentation.SearchScreen.SearchScreen
 import com.example.bookshelf.R
 
@@ -24,7 +24,7 @@ fun Navigation(){
             .fillMaxSize()
             .background(color = colorResource(R.color.Primary_Background_Dark))
     ) {
-        val homeViewModel : HomeScreenViewModel = hiltViewModel()
+        val homeViewModel : SearchScreenViewModel = hiltViewModel()
         val navController = rememberNavController()
         NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
             composable(

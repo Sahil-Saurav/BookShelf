@@ -5,19 +5,15 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -38,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.bookshelf.Presentation.HomeScreen.Components.BookListCard
 import com.example.bookshelf.Presentation.Screen
+import com.example.bookshelf.Presentation.SearchScreen.SearchScreenViewModel
 import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
 import com.example.bookshelf.R
 import com.example.bookshelf.Utils.TextFieldStyle
@@ -47,7 +43,7 @@ import com.example.bookshelf.Utils.TextFieldStyle
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    viewModel: HomeScreenViewModel = hiltViewModel(),
+    viewModel: SearchScreenViewModel = hiltViewModel(),
     navController: NavHostController
 )
 {

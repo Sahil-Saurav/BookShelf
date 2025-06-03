@@ -1,4 +1,4 @@
-package com.example.bookshelf.Presentation.HomeScreen.Components
+package com.example.bookshelf.Presentation.SearchScreen.Components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

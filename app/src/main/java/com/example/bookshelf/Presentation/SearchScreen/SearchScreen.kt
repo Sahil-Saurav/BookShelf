@@ -1,6 +1,5 @@
 package com.example.bookshelf.Presentation.SearchScreen
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,17 +29,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.bookshelf.Presentation.HomeScreen.Components.BookListCard
-import com.example.bookshelf.Presentation.HomeScreen.HomeScreenViewModel
+import com.example.bookshelf.Presentation.SearchScreen.Components.BookListCard
 import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
 import com.example.bookshelf.R
 
 @Composable
 fun SearchScreen(
     bookName: String,
-    viewModel: HomeScreenViewModel = hiltViewModel(),
+    viewModel: SearchScreenViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
     val state = viewModel.state

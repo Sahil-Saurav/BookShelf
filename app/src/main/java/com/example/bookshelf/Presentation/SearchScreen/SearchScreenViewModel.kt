@@ -1,4 +1,4 @@
-package com.example.bookshelf.Presentation.HomeScreen
+package com.example.bookshelf.Presentation.SearchScreen
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -12,24 +12,24 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeScreenViewModel @Inject constructor(
+class SearchScreenViewModel @Inject constructor(
     private val getBookByNameUseCase: GetBookByNameUseCase
 ) : ViewModel(){
 
-    private val _state = mutableStateOf(HomeState())
-    val state : State<HomeState> = _state
+    private val _state = mutableStateOf(SearchState())
+    val state : State<SearchState> = _state
 
     fun getBookByName(bookName: String){
         getBookByNameUseCase(bookName = bookName).onEach{ result ->
             when(result){
                 is Resource.Error ->{
-                    _state.value = HomeState(error = result.message.toString())
+                    _state.value = SearchState(error = result.message.toString())
                 }
                 is Resource.Loading -> {
-                    _state.value = HomeState(isLoading = true)
+                    _state.value = SearchState(isLoading = true)
                 }
                 is Resource.Success -> {
-                    _state.value = HomeState(books = result.data)
+                    _state.value = SearchState(books = result.data)
                 }
             }
 

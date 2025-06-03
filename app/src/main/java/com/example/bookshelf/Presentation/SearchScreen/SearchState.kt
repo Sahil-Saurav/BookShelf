@@ -1,9 +1,8 @@
-package com.example.bookshelf.Presentation.HomeScreen
+package com.example.bookshelf.Presentation.SearchScreen
 
-import com.example.bookshelf.Common.Resource
 import com.example.bookshelf.Domain.Models.BookByBookName
 
-data class HomeState(
+data class SearchState(
     val isLoading:Boolean = false,
     val books: BookByBookName? = null,
     val error: String = ""
