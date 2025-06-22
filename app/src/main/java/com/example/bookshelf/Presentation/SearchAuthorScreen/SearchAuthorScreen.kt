@@ -57,6 +57,7 @@ fun SearchAuthorScreen(
     var authorName by remember { mutableStateOf("") }
     var keyboardController = LocalSoftwareKeyboardController.current
     val state = authorViewModel.state
+    var searchClick by remember { mutableStateOf<Boolean>(false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -95,6 +96,7 @@ fun SearchAuthorScreen(
             TextField(
                 value = authorName,
                 onValueChange = {authorName = it},
+                singleLine = true,
                 textStyle = TextFieldStyle(
                     color = colorResource(R.color.Primary_Font_Green),
                     fontWeight = FontWeight.Bold,
@@ -115,6 +117,7 @@ fun SearchAuthorScreen(
                 onClick = {
                     authorViewModel.getBookByAuthorName(authorName)
                     Log.i("Search Button","$authorName is Searched")
+                    searchClick = true
                     keyboardController?.hide()
                 },
                 colors = ButtonColors(
@@ -137,8 +140,8 @@ fun SearchAuthorScreen(
             if(state.value.isLoading){
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
+                        .fillMaxSize(),
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ){
                     CircularProgressIndicator(
@@ -147,7 +150,8 @@ fun SearchAuthorScreen(
                     Text(
                         text = "Searching for $authorName",
                         fontFamily = wdxllubrifont,
-                        color = Color.White
+                        color = Color.White,
+                        fontSize = 16.sp
                     )
                 }
 
@@ -155,8 +159,8 @@ fun SearchAuthorScreen(
             if(!state.value.error.isEmpty()){
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
+                        .fillMaxSize(),
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ){
                     Text(
@@ -167,11 +171,11 @@ fun SearchAuthorScreen(
                 }
 
             }
-            if(!state.value.isLoading && state.value.books?.items.isNullOrEmpty() && state.value.error.isEmpty()){
+            if(!state.value.isLoading && state.value.books?.items.isNullOrEmpty() && state.value.error.isEmpty() && searchClick){
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
+                        .fillMaxSize(),
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -180,7 +184,6 @@ fun SearchAuthorScreen(
                         color = Color.Red
                     )
                 }
-
             }
             if(state.value.books?.items?.isNotEmpty() == true){
                 Spacer(modifier = Modifier.height(4.dp))
