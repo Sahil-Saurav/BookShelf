@@ -59,6 +59,49 @@ fun SearchScreen(
                 CircularProgressIndicator(
                     color = colorResource(R.color.Primary_Font_Green)
                 )
+                Text(
+                    text = "Searching for $bookName",
+                    fontFamily = wdxllubrifont,
+                    color = Color.White
+                )
+            }
+            if(!state.value.isLoading && state.value.books?.items.isNullOrEmpty() && state.value.error.isEmpty()){
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = {
+                        navController.navigateUp()
+                    }
+                    ) {
+                        androidx.compose.material3.Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
+                    Text(
+                        text = "Search Results for: ${bookName}",
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        fontFamily = wdxllubrifont,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Cannot find: $bookName",
+                        fontFamily = wdxllubrifont,
+                        color = Color.Red
+                    )
+                }
             }
             if(!state.value.error.isEmpty()){
                 Text(

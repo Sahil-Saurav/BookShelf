@@ -13,6 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bookshelf.Presentation.HomeScreen.HomeScreen
+import com.example.bookshelf.Presentation.SearchAuthorScreen.SearchAuthorScreen
+import com.example.bookshelf.Presentation.SearchAuthorScreen.SearchAuthorViewModel
 import com.example.bookshelf.Presentation.SearchScreen.SearchScreenViewModel
 import com.example.bookshelf.Presentation.SearchScreen.SearchScreen
 import com.example.bookshelf.R
@@ -24,7 +26,8 @@ fun Navigation(){
             .fillMaxSize()
             .background(color = colorResource(R.color.Primary_Background_Dark))
     ) {
-        val homeViewModel : SearchScreenViewModel = hiltViewModel()
+        val searchViewModel : SearchScreenViewModel = hiltViewModel()
+        val authorViewModel : SearchAuthorViewModel = hiltViewModel()
         val navController = rememberNavController()
         NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
             composable(
@@ -32,14 +35,22 @@ fun Navigation(){
                 enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
                 exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }
             ) {
-                HomeScreen(modifier = Modifier,homeViewModel,navController)
+                HomeScreen(modifier = Modifier,searchViewModel,authorViewModel,navController)
             }
             composable(
                 route = Screen.SearchScreen.route+"/{bookName}",
                 enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
                 exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }) {
                 val bookName = it.arguments?.getString("bookName")?:" "
-                SearchScreen(bookName,homeViewModel,navController)
+                SearchScreen(bookName,searchViewModel,navController)
+            }
+            composable(
+                route = Screen.AuthorScreen.route,
+                enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
+                exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }) {
+                SearchAuthorScreen(
+                    navController = navController
+                )
             }
         }
     }

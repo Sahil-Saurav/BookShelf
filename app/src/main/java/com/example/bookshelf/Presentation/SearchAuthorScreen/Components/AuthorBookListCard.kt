@@ -1,4 +1,4 @@
-package com.example.bookshelf.Presentation.SearchScreen.Components
+package com.example.bookshelf.Presentation.SearchAuthorScreen.Components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,12 +29,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.bookshelf.Data.Remote.SearchByNameDTO.Item
+import com.example.bookshelf.Data.Remote.SearchByNameAndAuthorDTO.Item
 import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
 import com.example.bookshelf.R
 
 @Composable
-fun BookListCard(book: Item){
+fun AuthorBookListCard(book: Item){
     Column(
         modifier = Modifier
             .clip(shape = AbsoluteCutCornerShape(bottomRight = 48.dp))
@@ -67,7 +67,7 @@ fun BookListCard(book: Item){
                             modifier = Modifier
                                 .size(120.dp)
                                 .background(color = Color.Green)
-                            )
+                        )
                     }
                 } else {
                     // Handle case where imageLinks is null

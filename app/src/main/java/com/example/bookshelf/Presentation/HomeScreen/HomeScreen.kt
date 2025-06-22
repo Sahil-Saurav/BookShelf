@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.bookshelf.Presentation.Screen
+import com.example.bookshelf.Presentation.SearchAuthorScreen.SearchAuthorViewModel
 import com.example.bookshelf.Presentation.SearchScreen.SearchScreenViewModel
 import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
 import com.example.bookshelf.R
@@ -43,11 +44,13 @@ import com.example.bookshelf.Utils.TextFieldStyle
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    viewModel: SearchScreenViewModel = hiltViewModel(),
+    searchViewModel: SearchScreenViewModel = hiltViewModel(),
+    authorViewModel: SearchAuthorViewModel = hiltViewModel(),
     navController: NavHostController
 )
 {
-    val state = viewModel.state
+    //val searchState = searchViewModel.state
+
     var bookName by remember { mutableStateOf<String>("") }
     var keyBoardController = LocalSoftwareKeyboardController.current
     Box(modifier = modifier
@@ -76,9 +79,12 @@ fun HomeScreen(
             .background(Color.Transparent)) {
             Spacer(modifier.height(32.dp))
             TextField(
-                value = bookName,
-                onValueChange = {bookName = it},
-                maxLines = 1,
+                value = authorViewModel.book.value,
+                onValueChange = {
+                    bookName = it
+                    authorViewModel.setBookName(bookName)
+                                },
+                singleLine = true,
                 label = {Text("Enter Book Name", fontFamily = wdxllubrifont, color = colorResource(R.color.Primary_Background_Dark))},
                 textStyle = TextFieldStyle(
                     color = colorResource(R.color.Primary_Font_Green),
@@ -98,7 +104,8 @@ fun HomeScreen(
             Spacer(modifier.height(8.dp))
             Button(
                 onClick = {
-                    viewModel.getBookByName(bookName)
+                    searchViewModel.getBookByName(bookName)
+                    authorViewModel.setBookName(bookName)
                     navController.navigate(route = Screen.SearchScreen.route+"/${bookName}")
                     Log.i("Search Button","$bookName is Searched")
                     keyBoardController?.hide()
@@ -122,6 +129,26 @@ fun HomeScreen(
             Spacer(modifier.height(4.dp))
             HorizontalDivider(modifier.padding(start = 8.dp, end = 8.dp))
             Spacer(modifier.height(8.dp))
+            Button(
+                onClick = {
+                    navController.navigate(Screen.AuthorScreen.route)
+                },
+                colors = ButtonColors(
+                    containerColor = colorResource(R.color.Primary_Font_Green),
+                    contentColor = Color.White,
+                    disabledContainerColor = Color.Gray,
+                    disabledContentColor = Color.Gray
+                ),
+                border = BorderStroke(
+                    width = 2.dp,
+                    color = Color.White
+                )
+            ){
+                Text(
+                    text = "Search Book by Author",
+                    fontFamily = wdxllubrifont
+                )
+            }
 //            if(state.value.isLoading){
 //                CircularProgressIndicator(
 //                    color = colorResource(R.color.Primary_Font_Green),

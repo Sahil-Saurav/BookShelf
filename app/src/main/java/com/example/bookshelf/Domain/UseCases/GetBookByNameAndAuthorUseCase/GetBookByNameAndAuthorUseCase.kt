@@ -15,10 +15,10 @@ import javax.inject.Inject
 class GetBookByNameAndAuthorUseCase @Inject constructor(
     private val bookShelfRepository: BookShelfRepository
 ){
-    operator fun invoke(bookName: String,authorName: String):Flow<Resource<BookByBookNameAndAuthor>> = flow {
+    operator fun invoke(authorName: String):Flow<Resource<BookByBookNameAndAuthor>> = flow {
             try {
                 emit(Resource.Loading())
-                val books = bookShelfRepository.getBookByNameAndAuthor(bookName,authorName,Httpdetails.API_KEY).toBookByNameAndAuthor()
+                val books = bookShelfRepository.getBookByNameAndAuthor(authorName,Httpdetails.API_KEY).toBookByNameAndAuthor()
                 emit(Resource.Success(books))
                 Log.i("Success",books.toString())
             }catch (e: HttpException){

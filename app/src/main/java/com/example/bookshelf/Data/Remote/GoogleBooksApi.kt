@@ -15,8 +15,9 @@ interface GoogleBooksApi {
     ): BookByBookNameDto
 
     @GET("volumes")
-    suspend fun getBookByNameAndAuthor(
+    suspend fun getBookbyAuthor(
         @Query("q")query:String,
+        @Query("maxResults")max: Int,
         @Query("key")apiKey: String
     ): BookByBookNameAndAuthorDto
 }
