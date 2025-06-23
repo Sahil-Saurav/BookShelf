@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.bookshelf.Presentation.BookDetailsScreen.BookViewModel
+import com.example.bookshelf.Presentation.Screen
 import com.example.bookshelf.Presentation.SearchScreen.Components.BookListCard
 import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
 import com.example.bookshelf.R
@@ -38,6 +40,7 @@ import com.example.bookshelf.R
 fun SearchScreen(
     bookName: String,
     viewModel: SearchScreenViewModel = hiltViewModel(),
+    bookViewModel: BookViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
     val state = viewModel.state
@@ -141,7 +144,10 @@ fun SearchScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(state.value.books?.items?:emptyList()) { book->
-                        BookListCard(book)
+                        BookListCard(book, onClick = {
+                            bookViewModel.getBook(book.id)
+                            navController.navigate(Screen.BookDetailsScreen.route)
+                        })
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }

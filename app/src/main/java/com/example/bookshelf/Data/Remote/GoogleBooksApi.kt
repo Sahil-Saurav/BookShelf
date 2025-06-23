@@ -1,9 +1,11 @@
 package com.example.bookshelf.Data
 
 
+import com.example.bookshelf.Data.Remote.SearchBook.BookDto
 import com.example.bookshelf.Data.Remote.SearchByNameAndAuthorDTO.BookByBookNameAndAuthorDto
 import com.example.bookshelf.Data.Remote.SearchByNameDTO.BookByBookNameDto
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GoogleBooksApi {
@@ -20,4 +22,9 @@ interface GoogleBooksApi {
         @Query("maxResults")max: Int,
         @Query("key")apiKey: String
     ): BookByBookNameAndAuthorDto
+
+    @GET("volumes/{volumeId}")
+    suspend fun getBook(
+        @Path("volumeId") id:String
+    ): BookDto
 }

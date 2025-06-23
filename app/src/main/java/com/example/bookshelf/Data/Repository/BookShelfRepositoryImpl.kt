@@ -1,6 +1,7 @@
 package com.example.bookshelf.Data.Repository
 
 import com.example.bookshelf.Data.GoogleBooksApi
+import com.example.bookshelf.Data.Remote.SearchBook.BookDto
 import com.example.bookshelf.Data.Remote.SearchByNameAndAuthorDTO.BookByBookNameAndAuthorDto
 import com.example.bookshelf.Domain.Repository.BookShelfRepository
 
@@ -24,5 +25,9 @@ class BookShelfRepositoryImpl @Inject constructor(
     ): BookByBookNameAndAuthorDto {
         val query = "inauthor:$authorName"
         return api.getBookbyAuthor(query,40,apiKey)
+    }
+
+    override suspend fun getBook(volumeId: String): BookDto {
+        return api.getBook(volumeId)
     }
 }

@@ -12,6 +12,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.bookshelf.Presentation.BookDetailsScreen.BookDetailsScreen
+import com.example.bookshelf.Presentation.BookDetailsScreen.BookViewModel
 import com.example.bookshelf.Presentation.HomeScreen.HomeScreen
 import com.example.bookshelf.Presentation.SearchAuthorScreen.SearchAuthorScreen
 import com.example.bookshelf.Presentation.SearchAuthorScreen.SearchAuthorViewModel
@@ -28,6 +30,7 @@ fun Navigation(){
     ) {
         val searchViewModel : SearchScreenViewModel = hiltViewModel()
         val authorViewModel : SearchAuthorViewModel = hiltViewModel()
+        val bookViewModel : BookViewModel = hiltViewModel()
         val navController = rememberNavController()
         NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
             composable(
@@ -42,15 +45,22 @@ fun Navigation(){
                 enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
                 exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }) {
                 val bookName = it.arguments?.getString("bookName")?:" "
-                SearchScreen(bookName,searchViewModel,navController)
+                SearchScreen(bookName,searchViewModel,bookViewModel,navController)
             }
             composable(
                 route = Screen.AuthorScreen.route,
                 enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
                 exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }) {
                 SearchAuthorScreen(
-                    navController = navController
+                    navController = navController,
+                    bookViewModel = bookViewModel
                 )
+            }
+            composable(
+                route = Screen.BookDetailsScreen.route,
+                enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
+                exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }) {
+                BookDetailsScreen(bookViewModel,navController)
             }
         }
     }

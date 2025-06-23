@@ -3,6 +3,7 @@ package com.example.bookshelf.Presentation.SearchAuthorScreen.Components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +35,7 @@ import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
 import com.example.bookshelf.R
 
 @Composable
-fun AuthorBookListCard(book: Item){
+fun AuthorBookListCard(book: Item,onClick:()-> Unit){
     Column(
         modifier = Modifier
             .clip(shape = AbsoluteCutCornerShape(bottomRight = 48.dp))
@@ -43,6 +44,7 @@ fun AuthorBookListCard(book: Item){
             //.shadow(elevation = 8.dp, shape = AbsoluteCutCornerShape(bottomRight = 48.dp), ambientColor = colorResource(R.color.Primary_Font_Green), spotColor = colorResource(R.color.Primary_Font_Green))
             .padding(2.dp)
             .fillMaxWidth()
+            .clickable(onClick = {onClick()})
     ) {
         Row(
             modifier = Modifier

@@ -43,6 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.bookshelf.Presentation.BookDetailsScreen.BookViewModel
+import com.example.bookshelf.Presentation.Screen
 import com.example.bookshelf.Presentation.SearchAuthorScreen.Components.AuthorBookListCard
 import com.example.bookshelf.Presentation.SearchScreen.Components.BookListCard
 import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
@@ -52,6 +54,7 @@ import com.example.bookshelf.Utils.TextFieldStyle
 @Composable
 fun SearchAuthorScreen(
     authorViewModel: SearchAuthorViewModel = hiltViewModel(),
+    bookViewModel: BookViewModel = hiltViewModel(),
     navController: NavController
 ){
     var authorName by remember { mutableStateOf("") }
@@ -191,7 +194,10 @@ fun SearchAuthorScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(state.value.books?.items?:emptyList()) { book->
-                        AuthorBookListCard(book)
+                        AuthorBookListCard(book, onClick = {
+                            bookViewModel.getBook(book.id)
+                            navController.navigate(Screen.BookDetailsScreen.route)
+                        })
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
