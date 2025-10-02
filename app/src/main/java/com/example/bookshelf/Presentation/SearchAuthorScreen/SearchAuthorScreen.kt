@@ -141,11 +141,11 @@ fun SearchAuthorScreen(
             }
             Spacer(modifier = Modifier.height(4.dp))
             if(state.value.isLoading){
-                Row(
+                Column(
                     modifier = Modifier
                         .fillMaxSize(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ){
                     CircularProgressIndicator(
                         color = colorResource(R.color.Primary_Font_Green)

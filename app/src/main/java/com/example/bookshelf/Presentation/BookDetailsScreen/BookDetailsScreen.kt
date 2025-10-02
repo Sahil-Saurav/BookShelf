@@ -25,7 +25,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +39,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
 import com.example.bookshelf.R
+import com.example.bookshelf.Utils.cleanHtmlTags
 
 @Composable
 fun BookDetailsScreen(
@@ -105,14 +108,30 @@ fun BookDetailsScreen(
                         ) {
                             val imageLinks = book?.volumeInfo?.imageLinks
                             if (imageLinks != null) {
-                                val thumbnailUrl = imageLinks.smallThumbnail.replace("http","https")
+                                val thumbnailUrl = imageLinks.thumbnail.replace("http","https")
                                 if (thumbnailUrl != null) {
                                     // Load the image
-                                    AsyncImage(
-                                        model = thumbnailUrl,
-                                        contentDescription = "Book thumbnail",
-                                        modifier = Modifier.size(120.dp)
+                                    Box(
+                                        modifier = Modifier
+                                            .height(200.dp)
+                                            .fillMaxWidth()
+                                    ){
+                                        AsyncImage(
+                                            model = thumbnailUrl,
+                                            contentDescription = "Book thumbnail",
+                                            contentScale = ContentScale.FillBounds, // Optional: crop to fill the box
+                                            modifier = Modifier
+                                                .matchParentSize()
+                                                .blur(16.dp)
+                                        )
+                                        AsyncImage(
+                                            model = thumbnailUrl,
+                                            contentDescription = "Book thumbnail",
+                                            contentScale = ContentScale.Fit,
+                                            modifier = Modifier.matchParentSize()
                                     )
+
+                                    }
                                 } else {
                                     // Handle case where thumbnail specifically is null
                                     Image(
@@ -216,6 +235,77 @@ fun BookDetailsScreen(
                                 )
                                 Text(
                                     text = book?.volumeInfo?.publisher?:" ",
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    fontFamily = wdxllubrifont
+                                )
+                            }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "Rating : ",
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = colorResource(R.color.Primary_Font_Green),
+                                    fontFamily = wdxllubrifont
+                                )
+                                Text(
+                                    text = book?.volumeInfo?.averageRating.toString(),
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    fontFamily = wdxllubrifont
+                                )
+                            }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "Genre : ",
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = colorResource(R.color.Primary_Font_Green),
+                                    fontFamily = wdxllubrifont
+                                )
+                                Text(
+                                    text = book?.volumeInfo?.categories?.get(0)?:" ",
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    fontFamily = wdxllubrifont
+                                )
+                            }
+                            Text(
+                                text = "Description : ",
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = colorResource(R.color.Primary_Font_Green),
+                                fontFamily = wdxllubrifont
+                            )
+                            Text(
+                                text = cleanHtmlTags(book?.volumeInfo?.description?:" "),
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                fontFamily = wdxllubrifont
+                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "Page Count : ",
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = colorResource(R.color.Primary_Font_Green),
+                                    fontFamily = wdxllubrifont
+                                )
+                                Text(
+                                    text = book?.volumeInfo?.printedPageCount.toString(),
                                     fontSize = 24.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,
