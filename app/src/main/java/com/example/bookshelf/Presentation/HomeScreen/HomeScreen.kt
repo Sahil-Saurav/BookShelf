@@ -18,6 +18,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.navOptions
+import com.example.bookshelf.Presentation.AuthScreens.AuthViewModel
 import com.example.bookshelf.Presentation.Screen
 import com.example.bookshelf.Presentation.SearchAuthorScreen.SearchAuthorViewModel
 import com.example.bookshelf.Presentation.SearchScreen.SearchScreenViewModel
@@ -46,10 +50,22 @@ fun HomeScreen(
     modifier: Modifier,
     searchViewModel: SearchScreenViewModel = hiltViewModel(),
     authorViewModel: SearchAuthorViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
     navController: NavHostController
 )
 {
     //val searchState = searchViewModel.state
+
+    val currentUser by authViewModel.currentUser.collectAsState()
+
+    LaunchedEffect(currentUser) {
+        if(currentUser == null){
+            navController.navigate(Screen.SignIn.route,navOptions{
+                popUpTo(Screen.HomeScreen.route){inclusive = true}
+                launchSingleTop = true
+            })
+        }
+    }
 
     var bookName by remember { mutableStateOf<String>("") }
     var keyBoardController = LocalSoftwareKeyboardController.current
@@ -146,6 +162,27 @@ fun HomeScreen(
             ){
                 Text(
                     text = "Search Book by Author",
+                    fontFamily = wdxllubrifont
+                )
+            }
+            Button(
+                onClick = {
+                    authViewModel.signOut()
+                    Log.i("signout",currentUser.toString())
+                },
+                colors = ButtonColors(
+                    containerColor = colorResource(R.color.Primary_Font_Green),
+                    contentColor = Color.White,
+                    disabledContainerColor = Color.Gray,
+                    disabledContentColor = Color.Gray
+                ),
+                border = BorderStroke(
+                    width = 2.dp,
+                    color = Color.White
+                )
+            ){
+                Text(
+                    text = "Sign Out",
                     fontFamily = wdxllubrifont
                 )
             }

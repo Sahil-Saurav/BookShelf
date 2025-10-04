@@ -2,8 +2,16 @@ package com.example.bookshelf.DI
 
 import com.example.bookshelf.Common.Httpdetails
 import com.example.bookshelf.Data.GoogleBooksApi
+import com.example.bookshelf.Data.Repository.AuthRepositoryImpl
 import com.example.bookshelf.Data.Repository.BookShelfRepositoryImpl
+import com.example.bookshelf.Domain.Repository.AuthRepository
 import com.example.bookshelf.Domain.Repository.BookShelfRepository
+import com.example.bookshelf.Domain.UseCases.AuthUseCase
+import com.example.bookshelf.Domain.UseCases.GetCurrentUserIdUseCase.GetCurrentUserIdUseCase
+import com.example.bookshelf.Domain.UseCases.SignInUseCase.SignInUseCase
+import com.example.bookshelf.Domain.UseCases.SignOutUseCase.SignOutUseCase
+import com.example.bookshelf.Domain.UseCases.SignUpUseCase.SignUpUseCase
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +39,28 @@ object AppModule {
     @Singleton
     fun providesBookShelfRepository(api : GoogleBooksApi): BookShelfRepository{
         return BookShelfRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun providesFirebaseAuth():FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun providesAuthRepository(firebaseAuth: FirebaseAuth):AuthRepository{
+        return AuthRepositoryImpl(firebaseAuth)
+    }
+
+    @Provides
+    @Singleton
+    fun providesAuthUseCase(repository: AuthRepository): AuthUseCase{
+        return AuthUseCase(
+            SignInUseCase = SignInUseCase(repository),
+            SignUpUseCase = SignUpUseCase(repository),
+            SignOutUseCase = SignOutUseCase(repository),
+            GetCurrentUserIdUseCase = GetCurrentUserIdUseCase(repository)
+        )
     }
 }
