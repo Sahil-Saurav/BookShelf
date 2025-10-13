@@ -316,8 +316,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="view_icon" />
-                            <entry key="sourceFile" value="D:\Android Project Materials\BookShelf\view-icon.svg" />
+                            <entry key="outputName" value="eye_blind_icon" />
+                            <entry key="sourceFile" value="D:\Android Project Materials\BookShelf\eye-blind-icon.svg" />
                           </map>
                         </option>
                       </PersistentState>

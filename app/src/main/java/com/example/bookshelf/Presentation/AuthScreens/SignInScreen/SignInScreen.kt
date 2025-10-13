@@ -1,6 +1,5 @@
 package com.example.bookshelf.Presentation.AuthScreens.SignInScreen
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,11 +38,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,8 +49,6 @@ import com.example.bookshelf.R
 import com.example.bookshelf.Utils.CustomAppM3TextField
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.core.view.ViewCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
@@ -123,7 +117,7 @@ fun SignInScreen(navController: NavController,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Image(
-                    painter = painterResource(R.drawable.book__sign_in),
+                    painter = painterResource(R.drawable.book_sign_in),
                     contentDescription = null,
                     modifier = Modifier.size(120.dp)
                 )
