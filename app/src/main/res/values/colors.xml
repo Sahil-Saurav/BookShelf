@@ -10,4 +10,5 @@
     <color name="Primary_Font_Green">#39E336</color>
     <color name="Primary_Background_Dark">#020D02</color>
     <color name="Rating_Star">#FFBA30</color>
+    <color name="splash_background">#020D02</color>
 </resources>

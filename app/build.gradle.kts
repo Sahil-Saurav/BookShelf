@@ -44,12 +44,19 @@ android {
 
 dependencies {
 
-    //Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.51.1")
+    //SplashScreen
+
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    //DataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    //FireBase_Auth
     implementation(libs.firebase.auth)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+    //Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
     ksp ("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     // navigation and retrofit

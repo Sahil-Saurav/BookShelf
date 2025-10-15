@@ -1,11 +1,14 @@
 package com.example.bookshelf.DI
 
+import android.content.Context
 import com.example.bookshelf.Common.Httpdetails
 import com.example.bookshelf.Data.GoogleBooksApi
 import com.example.bookshelf.Data.Repository.AuthRepositoryImpl
 import com.example.bookshelf.Data.Repository.BookShelfRepositoryImpl
+import com.example.bookshelf.Data.Repository.SettingsRepositoryImpl
 import com.example.bookshelf.Domain.Repository.AuthRepository
 import com.example.bookshelf.Domain.Repository.BookShelfRepository
+import com.example.bookshelf.Domain.Repository.SettingsRepository
 import com.example.bookshelf.Domain.UseCases.AuthUseCase
 import com.example.bookshelf.Domain.UseCases.GetCurrentUserIdUseCase.GetCurrentUserIdUseCase
 import com.example.bookshelf.Domain.UseCases.SignInUseCase.SignInUseCase
@@ -15,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -51,6 +55,12 @@ object AppModule {
     @Singleton
     fun providesAuthRepository(firebaseAuth: FirebaseAuth):AuthRepository{
         return AuthRepositoryImpl(firebaseAuth)
+    }
+
+    @Provides
+    @Singleton
+    fun providesOnBoardingRepository(@ApplicationContext context: Context): SettingsRepository{
+        return SettingsRepositoryImpl(context)
     }
 
     @Provides
