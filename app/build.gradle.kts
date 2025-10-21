@@ -44,12 +44,24 @@ android {
 
 dependencies {
 
+    // Room
+
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+
+
     //SplashScreen
 
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     //DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    //FireBase_FireStore
+    implementation(libs.firebase.firestore)
+
     //FireBase_Auth
     implementation(libs.firebase.auth)
     implementation(libs.androidx.credentials)

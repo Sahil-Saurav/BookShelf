@@ -1,12 +1,18 @@
 package com.example.bookshelf.DI
 
 import android.content.Context
+import androidx.room.Room
+import com.example.bookshelf.Application
 import com.example.bookshelf.Common.Httpdetails
 import com.example.bookshelf.Data.GoogleBooksApi
+import com.example.bookshelf.Data.Local.BookDao
+import com.example.bookshelf.Data.Local.BookDataBase
 import com.example.bookshelf.Data.Repository.AuthRepositoryImpl
+import com.example.bookshelf.Data.Repository.BookDataBaseRepositoryImpl
 import com.example.bookshelf.Data.Repository.BookShelfRepositoryImpl
 import com.example.bookshelf.Data.Repository.SettingsRepositoryImpl
 import com.example.bookshelf.Domain.Repository.AuthRepository
+import com.example.bookshelf.Domain.Repository.BookDataBaseRepository
 import com.example.bookshelf.Domain.Repository.BookShelfRepository
 import com.example.bookshelf.Domain.Repository.SettingsRepository
 import com.example.bookshelf.Domain.UseCases.AuthUseCase
@@ -72,5 +78,27 @@ object AppModule {
             SignOutUseCase = SignOutUseCase(repository),
             GetCurrentUserIdUseCase = GetCurrentUserIdUseCase(repository)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun providesBookDataBase(application: Application): BookDataBase{
+        return Room.databaseBuilder(
+            application,
+            BookDataBase::class.java,
+            "book_db"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesBookDao(db: BookDataBase) : BookDao{
+        return db.bookDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesBookDataBaseRepository(bookDao: BookDao) : BookDataBaseRepository{
+        return BookDataBaseRepositoryImpl(bookDao)
     }
 }
