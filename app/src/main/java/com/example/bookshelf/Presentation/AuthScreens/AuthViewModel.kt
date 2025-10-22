@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookshelf.Common.AuthResult
 import com.example.bookshelf.Domain.UseCases.AuthUseCase
+import com.example.bookshelf.Domain.UseCases.FireStoreUseCases.addUserToFireStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authUseCase: AuthUseCase
+    private val authUseCase: AuthUseCase,
+    private val addUserToFireStore: addUserToFireStore
 ): ViewModel() {
     private val _authState = MutableStateFlow<AuthResult>(AuthResult.Idle)
     val authState = _authState.asStateFlow()
@@ -47,6 +49,7 @@ class AuthViewModel @Inject constructor(
             _authState.value = result
             if(result is AuthResult.Success){
                 checkAuthState()
+                addUserToFireStore(_currentUser.value.toString())
             }
         }
     }

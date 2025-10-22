@@ -10,17 +10,22 @@ import com.example.bookshelf.Data.Local.BookDataBase
 import com.example.bookshelf.Data.Repository.AuthRepositoryImpl
 import com.example.bookshelf.Data.Repository.BookDataBaseRepositoryImpl
 import com.example.bookshelf.Data.Repository.BookShelfRepositoryImpl
+import com.example.bookshelf.Data.Repository.FireStoreRepositoryImpl
 import com.example.bookshelf.Data.Repository.SettingsRepositoryImpl
 import com.example.bookshelf.Domain.Repository.AuthRepository
 import com.example.bookshelf.Domain.Repository.BookDataBaseRepository
 import com.example.bookshelf.Domain.Repository.BookShelfRepository
+import com.example.bookshelf.Domain.Repository.FireStoreRepository
 import com.example.bookshelf.Domain.Repository.SettingsRepository
 import com.example.bookshelf.Domain.UseCases.AuthUseCase
 import com.example.bookshelf.Domain.UseCases.GetCurrentUserIdUseCase.GetCurrentUserIdUseCase
 import com.example.bookshelf.Domain.UseCases.SignInUseCase.SignInUseCase
 import com.example.bookshelf.Domain.UseCases.SignOutUseCase.SignOutUseCase
 import com.example.bookshelf.Domain.UseCases.SignUpUseCase.SignUpUseCase
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -82,9 +87,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesBookDataBase(application: Application): BookDataBase{
+    fun providesBookDataBase(@ApplicationContext context: Context): BookDataBase{
         return Room.databaseBuilder(
-            application,
+            context,
             BookDataBase::class.java,
             "book_db"
         ).build()
@@ -100,5 +105,17 @@ object AppModule {
     @Singleton
     fun providesBookDataBaseRepository(bookDao: BookDao) : BookDataBaseRepository{
         return BookDataBaseRepositoryImpl(bookDao)
+    }
+
+    @Provides
+    @Singleton
+    fun providesFirebaseFireStore(): FirebaseFirestore {
+        return Firebase.firestore
+    }
+
+    @Provides
+    @Singleton
+    fun providesFireBaseFireStoreRepository(db: FirebaseFirestore,bookDao: BookDao): FireStoreRepository{
+        return FireStoreRepositoryImpl(db,bookDao)
     }
 }

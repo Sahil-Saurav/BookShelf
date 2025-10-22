@@ -9,11 +9,7 @@ import javax.inject.Inject
 class BookDataBaseRepositoryImpl @Inject constructor(
     private val bookDao: BookDao
 ) : BookDataBaseRepository {
-    override suspend fun addBook(bookEntity: BookEntity) {
-        bookDao.upsertBook(bookEntity)
-    }
-
-    override suspend fun updateBook(bookEntity: BookEntity) {
+    override suspend fun addBook(bookEntity: List<BookEntity>) {
         bookDao.upsertBook(bookEntity)
     }
 

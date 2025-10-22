@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AddBookUseCase @Inject constructor(
     private val bookDataBaseRepository: BookDataBaseRepository
 ) {
-    suspend operator fun invoke(bookEntity: BookEntity){
+    suspend operator fun invoke(bookEntity: List<BookEntity>){
         bookDataBaseRepository.addBook(bookEntity)
     }
 }

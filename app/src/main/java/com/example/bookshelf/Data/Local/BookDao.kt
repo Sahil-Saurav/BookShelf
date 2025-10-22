@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface BookDao {
 
     @Upsert
-    suspend fun upsertBook(bookEntity: BookEntity)
+    suspend fun upsertBook(bookEntity: List<BookEntity>)
 
     @Query("select * from book")
     fun getAllBooks(): Flow<List<BookEntity>>
