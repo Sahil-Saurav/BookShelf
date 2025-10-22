@@ -49,7 +49,13 @@ class AuthViewModel @Inject constructor(
             _authState.value = result
             if(result is AuthResult.Success){
                 checkAuthState()
-                addUserToFireStore(_currentUser.value.toString())
+                val uid = _currentUser.value
+
+                if (uid != null) {
+                    addUserToFireStore(uid)
+                } else {
+                    Log.e("AuthViewModel", "Sign-in successful but current user ID is null.")
+                }
             }
         }
     }
