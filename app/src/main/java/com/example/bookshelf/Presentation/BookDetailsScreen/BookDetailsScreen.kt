@@ -17,12 +17,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -37,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.bookshelf.Data.Local.BookEntity
 import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
 import com.example.bookshelf.R
 import com.example.bookshelf.Utils.cleanHtmlTags
@@ -48,12 +54,12 @@ fun BookDetailsScreen(
 ){
     val state = bookViewModel.state
     val book = bookViewModel.state.value.book
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(R.color.Primary_Background_Dark))
-            .padding(8.dp)
-            .systemBarsPadding()
+            .padding(start = 8.dp, end = 8.dp)
     ) {
         if(state.value.isLoading == true){
             Column(
@@ -73,7 +79,7 @@ fun BookDetailsScreen(
                         .fillMaxWidth()
                         .background(Color.Transparent),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     IconButton(
                         onClick = {navController.navigateUp()},
@@ -91,6 +97,23 @@ fun BookDetailsScreen(
                         color = Color.White,
                         fontFamily = wdxllubrifont
                     )
+                    IconButton(
+                        enabled = !state.value.doesBookExistInDatabase,
+                        onClick = {bookViewModel.addBook(
+                            BookEntity(
+                                id = book?.id ?:"0",
+                                title = book?.volumeInfo?.title?:"No title",
+                                image = book?.volumeInfo?.imageLinks?.thumbnail?.replace("http","https")?:"",
+                                currentlyReading = false,
+                                finishedReading = false
+                            )
+                        )},
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Navigate Up",
+                            tint = if (state.value.doesBookExistInDatabase) Color.Red else Color.White                        )
+                    }
                 }
                 HorizontalDivider()
                 Spacer(modifier = Modifier.height(8.dp))

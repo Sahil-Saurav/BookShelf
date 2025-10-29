@@ -48,8 +48,7 @@ fun SearchScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorResource(R.color.Primary_Background_Dark))
-            .padding(8.dp)
-            .systemBarsPadding(),
+            .padding(start = 8.dp, end = 8.dp)
     ) {
         Column(
             modifier = Modifier

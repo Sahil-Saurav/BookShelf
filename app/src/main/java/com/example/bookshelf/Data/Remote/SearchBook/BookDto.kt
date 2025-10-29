@@ -15,6 +15,7 @@ data class BookDto(
 
 fun BookDto.toBook(): Book{
     return Book(
+        id = id,
         volumeInfo = volumeInfo,
         saleInfo = saleInfo
     )

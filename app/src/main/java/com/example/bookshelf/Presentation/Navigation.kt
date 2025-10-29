@@ -3,23 +3,27 @@ package com.example.bookshelf.Presentation
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState // <-- ADDED
 import androidx.navigation.compose.rememberNavController
 import com.example.bookshelf.Presentation.AuthScreens.AuthViewModel
 import com.example.bookshelf.Presentation.AuthScreens.SignInScreen.SignInScreen
 import com.example.bookshelf.Presentation.AuthScreens.SignUpScreen.SignUpScreen
 import com.example.bookshelf.Presentation.BookDetailsScreen.BookDetailsScreen
 import com.example.bookshelf.Presentation.BookDetailsScreen.BookViewModel
+import com.example.bookshelf.Presentation.BookShelfScreen.BookShelfScreen
+import com.example.bookshelf.Presentation.BookShelfScreen.BookShelfViewModel
 import com.example.bookshelf.Presentation.HomeScreen.HomeScreen
 import com.example.bookshelf.Presentation.Onboarding.OnBoardingViewModel
 import com.example.bookshelf.Presentation.Onboarding.OnboardingPage
@@ -28,26 +32,53 @@ import com.example.bookshelf.Presentation.SearchAuthorScreen.SearchAuthorViewMod
 import com.example.bookshelf.Presentation.SearchScreen.SearchScreenViewModel
 import com.example.bookshelf.Presentation.SearchScreen.SearchScreen
 import com.example.bookshelf.R
+import com.example.bookshelf.Utils.BottomNavBar.NavBar
 import kotlinx.coroutines.launch
 
 @Composable
 fun Navigation(startDestination : String){
-    Column(
+    val searchViewModel : SearchScreenViewModel = hiltViewModel()
+    val authorViewModel : SearchAuthorViewModel = hiltViewModel()
+    val bookViewModel : BookViewModel = hiltViewModel()
+    val authViewModel : AuthViewModel = hiltViewModel()
+    val onBoardingViewModel : OnBoardingViewModel = hiltViewModel()
+    val bookShelfViewModel : BookShelfViewModel = hiltViewModel()
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val navController = rememberNavController()
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    val routesWithoutBottomBar = remember {
+        setOf(
+            Screen.OnBoarding.route,
+            Screen.SignIn.route,
+            Screen.SignUp.route
+        )
+    }
+
+    val showBottomBar = currentRoute != null && currentRoute !in routesWithoutBottomBar
+
+
+    Scaffold(
+        bottomBar = {
+            if (showBottomBar) {
+                NavBar(navController)
+            }
+        },
         modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorResource(R.color.Primary_Background_Dark))
-    ) {
-        val searchViewModel : SearchScreenViewModel = hiltViewModel()
-        val authorViewModel : SearchAuthorViewModel = hiltViewModel()
-        val bookViewModel : BookViewModel = hiltViewModel()
-        val authViewModel : AuthViewModel = hiltViewModel()
-        val onBoardingViewModel : OnBoardingViewModel = hiltViewModel()
+            .fillMaxSize(),
+    ) { innerPadding ->
 
-        val coroutineScope = rememberCoroutineScope()
-
-        val navController = rememberNavController()
-
-        NavHost(navController = navController, startDestination = startDestination) {
+        NavHost(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(R.color.Primary_Background_Dark))
+                .padding(innerPadding), // innerPadding will be correct even if bottomBar is null
+            navController = navController,
+            startDestination = startDestination) {
             composable(
                 route = Screen.HomeScreen.route,
                 enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
@@ -99,10 +130,23 @@ fun Navigation(startDestination : String){
                         coroutineScope.launch {
                             onBoardingViewModel.onboardingFinished()
                         }
-                        navController.navigate(Screen.SignIn.route)
+                        navController.navigate(Screen.SignIn.route) {
+                            popUpTo(Screen.OnBoarding.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                 )
             }
+
+            composable(
+                route = Screen.BookShelfScreen.route,
+                enterTransition = {slideInHorizontally(initialOffsetX = {-it}) },
+                exitTransition = {slideOutHorizontally(targetOffsetX = {-it}) }){
+                BookShelfScreen(navController,bookShelfViewModel)
+            }
         }
+
     }
+
 }

@@ -67,7 +67,7 @@ fun OnboardingPageItem(
             Spacer(modifier = Modifier.height(40.dp))
             Text(
                 text = page.title,
-                fontSize = 32.sp,
+                fontSize = 22.sp,
                 color = Color.White,
                 fontFamily = wdxllubrifont,
                 modifier = Modifier.fillMaxWidth(),
@@ -76,7 +76,7 @@ fun OnboardingPageItem(
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = page.description?:"",
-                fontSize = 24.sp,
+                fontSize = 14.sp,
                 color = Color.White,
                 fontFamily = wdxllubrifont,
                 modifier = Modifier.fillMaxWidth(),

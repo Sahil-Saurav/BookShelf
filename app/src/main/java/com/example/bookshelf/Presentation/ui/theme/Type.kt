@@ -37,5 +37,4 @@ val Typography = Typography(
 )
 val wdxllubrifont = FontFamily(
     Font(R.font.wdxl_lubrifont_tc_regular, FontWeight.Normal),
-
 )

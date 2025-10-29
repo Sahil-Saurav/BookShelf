@@ -21,4 +21,32 @@ class BookDataBaseRepositoryImpl @Inject constructor(
         bookDao.deleteBook(bookEntity)
     }
 
+    override fun getCountOfFinishedBook(): Flow<Int> {
+        return bookDao.getCountOfFinishedBookCount()
+    }
+
+    override fun getCountOfCurrentlyReadingBook(): Flow<Int> {
+        return bookDao.getCountOfReadingBookCount()
+    }
+
+    override fun getCountOfNotReadingBook(): Flow<Int> {
+        return bookDao.getCountOfNotStartedBook()
+    }
+
+    override fun getFinishedBook(): Flow<List<BookEntity>> {
+        return bookDao.getFinishedBook()
+    }
+
+    override fun getCurrentlyReadingBook(): Flow<List<BookEntity>> {
+        return bookDao.getCurrentlyReadingBook()
+    }
+
+    override fun getNotReadingBook(): Flow<List<BookEntity>> {
+        return bookDao.getNotStartedBook()
+    }
+
+    override fun doesBookExist(bookID: String): Flow<Boolean> {
+        return bookDao.doesBookExist(bookID)
+    }
+
 }

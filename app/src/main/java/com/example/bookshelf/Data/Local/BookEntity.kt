@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "book")
 data class BookEntity(
     @PrimaryKey(autoGenerate = false)
-    val id : String,
-    val title : String,
-    val image : String,
-    val currentlyReading : Boolean,
-    val finishedReading : Boolean
+    val id : String = "",
+    val title : String = "",
+    val image : String = "",
+    val currentlyReading : Boolean = false,
+    val finishedReading : Boolean = false
 )

@@ -10,10 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -54,7 +57,6 @@ fun HomeScreen(
     navController: NavHostController
 )
 {
-    //val searchState = searchViewModel.state
 
     val currentUser by authViewModel.currentUser.collectAsState()
 
@@ -72,8 +74,7 @@ fun HomeScreen(
     Box(modifier = modifier
         .fillMaxSize()
         .background(colorResource(R.color.Primary_Background_Dark))
-        .padding(8.dp)
-        .systemBarsPadding()
+        .padding(start = 8.dp, end = 8.dp)
         )
     {
         Column(
@@ -147,26 +148,6 @@ fun HomeScreen(
             Spacer(modifier.height(8.dp))
             Button(
                 onClick = {
-                    navController.navigate(Screen.AuthorScreen.route)
-                },
-                colors = ButtonColors(
-                    containerColor = colorResource(R.color.Primary_Font_Green),
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.Gray,
-                    disabledContentColor = Color.Gray
-                ),
-                border = BorderStroke(
-                    width = 2.dp,
-                    color = Color.White
-                )
-            ){
-                Text(
-                    text = "Search Book by Author",
-                    fontFamily = wdxllubrifont
-                )
-            }
-            Button(
-                onClick = {
                     authViewModel.signOut()
                     Log.i("signout",currentUser.toString())
                 },
@@ -186,6 +167,16 @@ fun HomeScreen(
                     fontFamily = wdxllubrifont
                 )
             }
+
+
+
+
+
+
+
+
+
+
 //            if(state.value.isLoading){
 //                CircularProgressIndicator(
 //                    color = colorResource(R.color.Primary_Font_Green),
