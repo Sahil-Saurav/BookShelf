@@ -41,7 +41,7 @@ fun BookShelfScreen(
 ){
 
     val books = bookShelfViewModel.state
-    var showDialog by remember { mutableStateOf(false) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -93,19 +93,19 @@ fun BookShelfScreen(
         ){
             items(books.value.book) { book ->
                 BookShelfItem(book,onDeleteClick = {
-                    showDialog = true
+                    showDeleteDialog = true
                     bookToDelete = book
                     Log.i("deleteBook","Click on delete icon")
                 }
                 )
             }
         }
-        if(showDialog){
+        if(showDeleteDialog){
             AlertBoxDialog(
-                onDismiss = {showDialog = false},
+                onDismiss = {showDeleteDialog = false},
                 onConfirm = {
                     bookShelfViewModel.deleteBook(bookToDelete)
-                    showDialog = false
+                    showDeleteDialog = false
                 }
             )
         }
