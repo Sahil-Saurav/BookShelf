@@ -180,34 +180,18 @@ fun BookShelfScreen(
                                         .clickable {
                                             when(item.type){
                                                 Filter.FINISHED -> {
-                                                    bookShelfViewModel.addBook(BookEntity(
-                                                        id = bookToBeUpdated.id,
-                                                        title = bookToBeUpdated.title,
-                                                        currentlyReading = false,
-                                                        finishedReading = true,
-                                                        image = bookToBeUpdated.image)
-                                                    )
+                                                    val update = bookToBeUpdated.copy(finishedReading = true, currentlyReading = false)
+                                                    bookShelfViewModel.addBook(update)
                                                     bookStatus = item.label
                                                 }
                                                 Filter.CURRENTLY_READING -> {
-                                                    bookShelfViewModel.addBook(BookEntity(
-                                                        id = bookToBeUpdated.id,
-                                                        title = bookToBeUpdated.title,
-                                                        currentlyReading = true,
-                                                        finishedReading = false,
-                                                        image = bookToBeUpdated.image)
-                                                    )
+                                                    val update = bookToBeUpdated.copy(currentlyReading = true, finishedReading = false)
+                                                    bookShelfViewModel.addBook(update)
                                                     bookStatus = item.label
                                                 }
                                                 Filter.NOT_STARTED -> {
-                                                    bookShelfViewModel.addBook(BookEntity(
-                                                        id = bookToBeUpdated.id,
-                                                        title = bookToBeUpdated.title,
-                                                        currentlyReading = false,
-                                                        finishedReading = false,
-                                                        image = bookToBeUpdated.image
-                                                    )
-                                                    )
+                                                    val update = bookToBeUpdated.copy(currentlyReading = false, finishedReading = false)
+                                                    bookShelfViewModel.addBook(update)
                                                     bookStatus = item.label
                                                 }
                                             }
