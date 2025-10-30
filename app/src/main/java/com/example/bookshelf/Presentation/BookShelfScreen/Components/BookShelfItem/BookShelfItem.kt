@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +34,8 @@ import com.example.bookshelf.R
 @Composable
 fun BookShelfItem(
     bookEntity: BookEntity,
-    onDeleteClick:()-> Unit){
+    onDeleteClick:()-> Unit,
+    onUpdateClick:()->Unit){
     Column(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(16.dp))
@@ -107,6 +109,13 @@ fun BookShelfItem(
                 contentDescription = "Delete Button",
                 modifier = Modifier
                     .clickable(onClick = {onDeleteClick()})
+            )
+            Icon(
+                imageVector = Icons.Default.Edit,
+                tint = Color.Gray,
+                contentDescription = "Edit Button",
+                modifier = Modifier
+                    .clickable(onClick = {onUpdateClick()})
             )
         }
     }

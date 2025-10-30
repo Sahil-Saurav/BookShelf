@@ -36,11 +36,13 @@ fun CustomAppM3TextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
+    enabled : Boolean = true,
     errorMessage: String? = null // Optional error message to display below the field
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
+        enabled = enabled,
         label = { Text(label, color = MyGreen) }, // Label text color
         trailingIcon = trailingIcon,
         modifier = modifier

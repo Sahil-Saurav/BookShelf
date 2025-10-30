@@ -12,6 +12,7 @@ import com.example.bookshelf.Domain.UseCases.BookDatabaseUseCase.GetAllBookUseCa
 import com.example.bookshelf.Domain.UseCases.BookDatabaseUseCase.GetCurrentlyReadingBookUseCase
 import com.example.bookshelf.Domain.UseCases.BookDatabaseUseCase.GetFinishedBookUseCase
 import com.example.bookshelf.Domain.UseCases.BookDatabaseUseCase.GetNotStartedBookUseCase
+import com.example.bookshelf.Domain.UseCases.FireStoreUseCases.addBookToFireStoreUseCase
 import com.example.bookshelf.Domain.UseCases.FireStoreUseCases.deleteBookToFireStoreUseCase
 import com.example.bookshelf.Domain.UseCases.FireStoreUseCases.getBookFromFireStoreUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +28,7 @@ class BookShelfViewModel @Inject constructor(
     private val getCurrentlyReadingBookUseCase: GetCurrentlyReadingBookUseCase,
     private val getNotStartedBookUseCase: GetNotStartedBookUseCase,
     private val getAllBookUseCase: GetAllBookUseCase,
+    private val addBookToFireStoreUseCase: addBookToFireStoreUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(BookShelfState())
@@ -100,6 +102,11 @@ class BookShelfViewModel @Inject constructor(
             } else {
                 Log.w("deleteBook", "Cannot delete: UID is null.")
             }
+        }
+    }
+    fun addBook(bookEntity: BookEntity){
+        viewModelScope.launch {
+            addBookToFireStoreUseCase(_uid.toString(),bookEntity)
         }
     }
 }
