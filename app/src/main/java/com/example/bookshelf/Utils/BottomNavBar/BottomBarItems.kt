@@ -22,7 +22,7 @@ object BottomBarItems {
         BottomBarItem(
             idx = 1,
             label = "Search",
-            route = Screen.AuthorScreen.route,
+            route = Screen.SearchScreen.route,
             selectedIcon = { Icon(Icons.Default.Search, contentDescription = null)},
             unSelectedIcon = {Icon(Icons.Outlined.Search, contentDescription = null)}
         ),

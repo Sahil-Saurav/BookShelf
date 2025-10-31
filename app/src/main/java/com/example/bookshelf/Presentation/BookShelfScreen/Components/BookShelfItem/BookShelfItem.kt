@@ -91,7 +91,7 @@ fun BookShelfItem(
                 fontSize = 16.sp,
             )
             Text(
-                text = if(bookEntity.finishedReading == true) "Finished" else if(bookEntity.currentlyReading == true) "Currently Reading" else "Not Started",
+                text = if(bookEntity.finishedReading == true) "Finished" else if(bookEntity.currentlyReading == true) "Reading" else "Not Started",
                 color = if(bookEntity.finishedReading == true) colorResource(R.color.Primary_Font_Green) else if(bookEntity.currentlyReading == true) colorResource(R.color.Rating_Star) else Color.Red,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp,

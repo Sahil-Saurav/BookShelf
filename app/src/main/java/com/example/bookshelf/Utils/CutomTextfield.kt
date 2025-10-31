@@ -36,6 +36,7 @@ fun CustomAppM3TextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
+    singleLine : Boolean = true,
     enabled : Boolean = true,
     errorMessage: String? = null // Optional error message to display below the field
 ) {
@@ -86,7 +87,7 @@ fun CustomAppM3TextField(
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         visualTransformation = visualTransformation,
-        singleLine = true,
+        singleLine = singleLine,
         isError = isError,
         // Optional: placeholder
         // placeholder = { Text("Enter text here", color = MyGreen.copy(alpha = 0.6f)) }

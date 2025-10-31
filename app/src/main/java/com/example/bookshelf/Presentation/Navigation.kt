@@ -15,7 +15,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState // <-- ADDED
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.bookshelf.Presentation.AuthScreens.AuthViewModel
 import com.example.bookshelf.Presentation.AuthScreens.SignInScreen.SignInScreen
@@ -27,17 +27,18 @@ import com.example.bookshelf.Presentation.BookShelfScreen.BookShelfViewModel
 import com.example.bookshelf.Presentation.HomeScreen.HomeScreen
 import com.example.bookshelf.Presentation.Onboarding.OnBoardingViewModel
 import com.example.bookshelf.Presentation.Onboarding.OnboardingPage
-import com.example.bookshelf.Presentation.SearchAuthorScreen.SearchAuthorScreen
-import com.example.bookshelf.Presentation.SearchAuthorScreen.SearchAuthorViewModel
-import com.example.bookshelf.Presentation.SearchScreen.SearchScreenViewModel
-import com.example.bookshelf.Presentation.SearchScreen.SearchScreen
+import com.example.bookshelf.Presentation.SearchScreen.SearchAuthorScreen
+import com.example.bookshelf.Presentation.SearchScreen.SearchAuthorViewModel
+import com.example.bookshelf.Presentation.SearchResultScreen.SearchResultScreenViewModel
+import com.example.bookshelf.Presentation.SearchResultScreen.SearchResultScreen
+import com.example.bookshelf.Presentation.SearchScreen.SearchByBookScreen
 import com.example.bookshelf.R
 import com.example.bookshelf.Utils.BottomNavBar.NavBar
 import kotlinx.coroutines.launch
 
 @Composable
 fun Navigation(startDestination : String){
-    val searchViewModel : SearchScreenViewModel = hiltViewModel()
+    val searchViewModel : SearchResultScreenViewModel = hiltViewModel()
     val authorViewModel : SearchAuthorViewModel = hiltViewModel()
     val bookViewModel : BookViewModel = hiltViewModel()
     val authViewModel : AuthViewModel = hiltViewModel()
@@ -84,14 +85,14 @@ fun Navigation(startDestination : String){
                 enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
                 exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }
             ) {
-                HomeScreen(modifier = Modifier,searchViewModel,authorViewModel,authViewModel,navController)
+                HomeScreen(navController,authViewModel)
             }
             composable(
-                route = Screen.SearchScreen.route+"/{bookName}",
+                route = Screen.SearchResultScreen.route+"/{bookName}",
                 enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
                 exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }) {
                 val bookName = it.arguments?.getString("bookName")?:" "
-                SearchScreen(bookName,searchViewModel,bookViewModel,navController)
+                SearchResultScreen(bookName,searchViewModel,bookViewModel,navController)
             }
             composable(
                 route = Screen.AuthorScreen.route,
@@ -100,6 +101,17 @@ fun Navigation(startDestination : String){
                 SearchAuthorScreen(
                     navController = navController,
                     bookViewModel = bookViewModel
+                )
+            }
+            composable(
+                route = Screen.SearchScreen.route,
+                enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
+                exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }) {
+                SearchByBookScreen(
+                    modifier = Modifier,
+                    searchViewModel = searchViewModel,
+                    authorViewModel = authorViewModel,
+                    navController = navController
                 )
             }
             composable(

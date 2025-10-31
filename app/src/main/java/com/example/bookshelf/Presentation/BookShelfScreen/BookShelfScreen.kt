@@ -1,6 +1,9 @@
 package com.example.bookshelf.Presentation.BookShelfScreen
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -75,6 +78,7 @@ fun BookShelfScreen(
                 fontSize = 24.sp
             )
         }
+        Spacer(modifier = Modifier.height(8.dp))
         HorizontalDivider()
         Spacer(modifier = Modifier.height(8.dp))
         Row(
@@ -116,7 +120,7 @@ fun BookShelfScreen(
                     onUpdateClick = {
                         showBottomSheet = true
                         bookToBeUpdated = book
-                        bookStatus = if(book.finishedReading == true) "Finished" else if(book.currentlyReading == true) "Currently Reading" else "Not Started"
+                        bookStatus = if(book.finishedReading == true) "Finished" else if(book.currentlyReading == true) "Reading" else "Not Started"
                         Log.i("updateBook","Click on update icon")
                     }
                 )
@@ -163,8 +167,11 @@ fun BookShelfScreen(
                             )
                         )
                     }
-
-                    if(showDropDown) {
+                    AnimatedVisibility(
+                        visible = showDropDown,
+                        enter = expandVertically(expandFrom = Alignment.Top),
+                        exit = shrinkVertically(shrinkTowards = Alignment.Top)
+                    ) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Column(
                             modifier = Modifier
@@ -210,6 +217,9 @@ fun BookShelfScreen(
                         }
                         Spacer(modifier = Modifier.height(16.dp))
                     }
+                    /*if(showDropDown) {
+
+                    }*/
                 }
             }
         }

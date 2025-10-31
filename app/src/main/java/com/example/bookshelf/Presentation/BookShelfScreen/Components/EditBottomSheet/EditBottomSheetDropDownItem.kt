@@ -9,6 +9,6 @@ data class EditBottomSheetDropDownItem(
 
 val editBottomSheetDropDownItems = listOf<EditBottomSheetDropDownItem>(
     EditBottomSheetDropDownItem("Finished", Filter.FINISHED),
-    EditBottomSheetDropDownItem("Currently Reading", Filter.CURRENTLY_READING),
+    EditBottomSheetDropDownItem("Reading", Filter.CURRENTLY_READING),
     EditBottomSheetDropDownItem("Not Started", Filter.NOT_STARTED),
 )

@@ -1,0 +1,172 @@
+package com.example.bookshelf.Presentation.SearchScreen
+
+import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.example.bookshelf.Presentation.Screen
+import com.example.bookshelf.Presentation.SearchResultScreen.SearchResultScreenViewModel
+import com.example.bookshelf.Presentation.ui.theme.wdxllubrifont
+import com.example.bookshelf.R
+import com.example.bookshelf.Utils.CustomAppM3TextField
+import com.example.bookshelf.Utils.TextFieldStyle
+
+@Composable
+fun SearchByBookScreen(
+    modifier: Modifier,
+    searchViewModel: SearchResultScreenViewModel = hiltViewModel(),
+    authorViewModel: SearchAuthorViewModel = hiltViewModel(),
+    navController: NavHostController
+)
+{
+
+    var bookName by remember { mutableStateOf<String>("") }
+    var keyBoardController = LocalSoftwareKeyboardController.current
+    Column(modifier = modifier
+        .fillMaxSize()
+        .background(colorResource(R.color.Primary_Background_Dark))
+        .padding(start = 8.dp, end = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+        )
+    {
+        Text(
+            text = "Search Book",
+            fontSize = 24.sp,
+            color = Color.White,
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = wdxllubrifont
+        )
+        Spacer(modifier.height(8.dp))
+        HorizontalDivider()
+        Spacer(modifier.height(16.dp))
+        CustomAppM3TextField(
+            value = authorViewModel.book.value,
+            onValueChange = {
+                bookName = it
+                authorViewModel.setBookName(bookName)
+            },
+            singleLine = true,
+            label = "Enter Book Name",
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    Log.i("Done IME","Keyboard is Hide")
+                    keyBoardController?.hide()
+                }
+            )
+        )
+        Spacer(modifier.height(8.dp))
+        Button(
+            onClick = {
+                searchViewModel.getBookByName(bookName)
+                authorViewModel.setBookName(bookName)
+                navController.navigate(route = Screen.SearchResultScreen.route+"/${bookName}")
+                Log.i("Search Button","$bookName is Searched")
+                keyBoardController?.hide()
+            },
+            colors = ButtonColors(
+                containerColor = colorResource(R.color.Primary_Font_Green),
+                contentColor = Color.White,
+                disabledContainerColor = Color.Gray,
+                disabledContentColor = Color.Gray
+            ),
+            border = BorderStroke(
+                width = 2.dp,
+                color = Color.White
+            )
+        ){
+            Text(
+                text = "Search",
+                fontFamily = wdxllubrifont
+            )
+        }
+        Spacer(modifier.height(16.dp))
+        Text(
+            text = "You can search books by author name.",
+            fontSize = 24.sp,
+            color = Color.Gray,
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = wdxllubrifont
+        )
+        Text(
+            text = "Click Here",
+            fontSize = 24.sp,
+            color = Color.DarkGray,
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = wdxllubrifont,
+            modifier = Modifier
+                .clickable(
+                    onClick = {navController.navigate(Screen.AuthorScreen.route)}
+                )
+        )
+
+
+
+
+
+
+
+
+
+//            if(state.value.isLoading){
+//                CircularProgressIndicator(
+//                    color = colorResource(R.color.Primary_Font_Green),
+//                    modifier = Modifier.align(Alignment.CenterHorizontally)
+//                    )
+//            }
+//            if(!state.value.error.isEmpty()){
+//                Text(
+//                    text = state.value.error,
+//                    fontFamily = wdxllubrifont,
+//                    color = Color.Red
+//                )
+//            }
+//            if(state.value.books?.items?.isNotEmpty() == true){
+//                LazyColumn() {
+//                    items(state.value.books?.items?:emptyList()) { book->
+//                        BookListCard(book)
+//                        Spacer(modifier = Modifier.height(8.dp))
+//                }
+//                }
+//            }
+    }
+}
+
+
+@Composable
+@Preview(showBackground = true)
+fun HomeScreenPreview(){
+    //HomeScreen(modifier = Modifier)
+}
