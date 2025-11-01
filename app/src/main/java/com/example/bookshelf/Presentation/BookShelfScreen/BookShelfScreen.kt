@@ -75,7 +75,8 @@ fun BookShelfScreen(
                 color = Color.White,
                 fontFamily = wdxllubrifont,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 24.sp
+                fontSize = 24.sp,
+                modifier = Modifier.fillMaxWidth()
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -106,7 +107,7 @@ fun BookShelfScreen(
         var bookToBeUpdated by remember { mutableStateOf<BookEntity>(BookEntity()) }
         var bookStatus by remember { mutableStateOf("") }
         LazyVerticalStaggeredGrid(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(4.dp),
             columns = StaggeredGridCells.Fixed(2),
             verticalItemSpacing = 4.dp,
             horizontalArrangement = Arrangement.spacedBy(2.dp)

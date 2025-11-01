@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -64,7 +65,8 @@ fun SearchByBookScreen(
             fontSize = 24.sp,
             color = Color.White,
             fontWeight = FontWeight.SemiBold,
-            fontFamily = wdxllubrifont
+            fontFamily = wdxllubrifont,
+            modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier.height(8.dp))
         HorizontalDivider()

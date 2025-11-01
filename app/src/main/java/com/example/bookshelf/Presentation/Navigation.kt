@@ -25,6 +25,7 @@ import com.example.bookshelf.Presentation.BookDetailsScreen.BookViewModel
 import com.example.bookshelf.Presentation.BookShelfScreen.BookShelfScreen
 import com.example.bookshelf.Presentation.BookShelfScreen.BookShelfViewModel
 import com.example.bookshelf.Presentation.HomeScreen.HomeScreen
+import com.example.bookshelf.Presentation.HomeScreen.HomeViewModel
 import com.example.bookshelf.Presentation.Onboarding.OnBoardingViewModel
 import com.example.bookshelf.Presentation.Onboarding.OnboardingPage
 import com.example.bookshelf.Presentation.SearchScreen.SearchAuthorScreen
@@ -44,6 +45,7 @@ fun Navigation(startDestination : String){
     val authViewModel : AuthViewModel = hiltViewModel()
     val onBoardingViewModel : OnBoardingViewModel = hiltViewModel()
     val bookShelfViewModel : BookShelfViewModel = hiltViewModel()
+    val homeViewModel : HomeViewModel = hiltViewModel()
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -85,7 +87,7 @@ fun Navigation(startDestination : String){
                 enterTransition = { slideInHorizontally(initialOffsetX = {-it}) },
                 exitTransition = { slideOutHorizontally(targetOffsetX = {-it}) }
             ) {
-                HomeScreen(navController,authViewModel)
+                HomeScreen(navController,authViewModel,homeViewModel)
             }
             composable(
                 route = Screen.SearchResultScreen.route+"/{bookName}",

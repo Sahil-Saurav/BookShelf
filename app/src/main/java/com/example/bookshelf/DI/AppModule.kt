@@ -18,6 +18,10 @@ import com.example.bookshelf.Domain.Repository.BookShelfRepository
 import com.example.bookshelf.Domain.Repository.FireStoreRepository
 import com.example.bookshelf.Domain.Repository.SettingsRepository
 import com.example.bookshelf.Domain.UseCases.AuthUseCase
+import com.example.bookshelf.Domain.UseCases.BookDatabaseUseCase.GetCountUseCase.GetCountCurrentlyReadingBookUseCase
+import com.example.bookshelf.Domain.UseCases.BookDatabaseUseCase.GetCountUseCase.GetCountFinishedBookUseCase
+import com.example.bookshelf.Domain.UseCases.BookDatabaseUseCase.GetCountUseCase.GetCountNotStartedBookUseCase
+import com.example.bookshelf.Domain.UseCases.BookDatabaseUseCase.GetCountUseCase.GetCountUseCase
 import com.example.bookshelf.Domain.UseCases.GetCurrentUserIdUseCase.GetCurrentUserIdUseCase
 import com.example.bookshelf.Domain.UseCases.SignInUseCase.SignInUseCase
 import com.example.bookshelf.Domain.UseCases.SignOutUseCase.SignOutUseCase
@@ -117,5 +121,15 @@ object AppModule {
     @Singleton
     fun providesFireBaseFireStoreRepository(db: FirebaseFirestore,bookDao: BookDao): FireStoreRepository{
         return FireStoreRepositoryImpl(db,bookDao)
+    }
+
+    @Provides
+    @Singleton
+    fun providesGetCountUseCase(bookDataBaseRepository: BookDataBaseRepository) : GetCountUseCase {
+        return GetCountUseCase(
+            getCountFinishedBookUseCase = GetCountFinishedBookUseCase(bookDataBaseRepository),
+            getCountCurrentlyReadingBookUseCase = GetCountCurrentlyReadingBookUseCase(bookDataBaseRepository),
+            getCountNotStartedBookUseCase = GetCountNotStartedBookUseCase(bookDataBaseRepository)
+        )
     }
 }

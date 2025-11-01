@@ -43,6 +43,9 @@ android {
 }
 
 dependencies {
+    //Y-chart (for donut chart)
+
+    implementation ("co.yml:ycharts:2.1.0")
 
     // Room
 
