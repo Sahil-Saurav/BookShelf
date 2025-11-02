@@ -33,6 +33,7 @@ fun CurrentlyReadingItem(
     Column(
         modifier = Modifier
             .width(200.dp)
+            .height(250.dp)
             .clip(shape = RoundedCornerShape(16.dp))
             .background(color = colorResource(R.color.Primary_Background_Dark))
             .border(width = 4.dp, color = colorResource(R.color.Primary_Font_Green), shape = RoundedCornerShape(16.dp))
@@ -69,6 +70,7 @@ fun CurrentlyReadingItem(
                 color = Color.White,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp,
+                maxLines = 2,
             )
         }
         Row {

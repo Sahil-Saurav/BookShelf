@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,9 +16,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalBottomSheet
@@ -32,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -59,6 +65,7 @@ fun BookShelfScreen(
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
     var showDropDown by remember { mutableStateOf(false) }
+    val horizontalScrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -84,11 +91,13 @@ fun BookShelfScreen(
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier =Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .horizontalScroll(horizontalScrollState),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             filterChips.onEach { filter ->
+                Spacer(modifier = Modifier.width(2.dp))
                 FilterChips(
                     text = filter.name,
                     selected = filter.type == books.value.filter,
@@ -101,30 +110,63 @@ fun BookShelfScreen(
                         }
                     }
                 )
+                Spacer(modifier = Modifier.width(2.dp))
             }
         }
         var bookToDelete by remember { mutableStateOf<BookEntity>(BookEntity()) }
         var bookToBeUpdated by remember { mutableStateOf<BookEntity>(BookEntity()) }
         var bookStatus by remember { mutableStateOf("") }
-        LazyVerticalStaggeredGrid(
-            modifier = Modifier.fillMaxSize().padding(4.dp),
-            columns = StaggeredGridCells.Fixed(2),
-            verticalItemSpacing = 4.dp,
-            horizontalArrangement = Arrangement.spacedBy(2.dp)
-        ){
-            items(books.value.book) { book ->
-                BookShelfItem(book,onDeleteClick = {
-                    showDeleteDialog = true
-                    bookToDelete = book
-                    Log.i("deleteBook","Click on delete icon")
-                },
-                    onUpdateClick = {
-                        showBottomSheet = true
-                        bookToBeUpdated = book
-                        bookStatus = if(book.finishedReading == true) "Finished" else if(book.currentlyReading == true) "Reading" else "Not Started"
-                        Log.i("updateBook","Click on update icon")
-                    }
+        if(books.value.isLoading){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
+            {
+                CircularProgressIndicator(color = colorResource(R.color.Primary_Font_Green))
+            }
+        }
+        if(books.value.book.isEmpty()){
+            Column(
+                modifier = Modifier
+                .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
                 )
+            {
+                Text(
+                    text = "No Book To Display!!",
+                    fontFamily = wdxllubrifont,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.DarkGray,
+                    fontSize = 24.sp,
+                    modifier = Modifier
+                        .padding(8.dp),
+                )
+            }
+
+        }else{
+            LazyVerticalStaggeredGrid(
+                modifier = Modifier.fillMaxSize().padding(4.dp),
+                columns = StaggeredGridCells.Fixed(2),
+                verticalItemSpacing = 4.dp,
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ){
+                items(books.value.book) { book ->
+                    BookShelfItem(book,onDeleteClick = {
+                        showDeleteDialog = true
+                        bookToDelete = book
+                        Log.i("deleteBook","Click on delete icon")
+                    },
+                        onUpdateClick = {
+                            showBottomSheet = true
+                            bookToBeUpdated = book
+                            bookStatus = if(book.finishedReading == true) "Finished" else if(book.currentlyReading == true) "Reading" else "Not Started"
+                            Log.i("updateBook","Click on update icon")
+                        }
+                    )
+                }
             }
         }
         if(showDeleteDialog){

@@ -234,13 +234,27 @@ fun HomeScreen(
                 modifier = Modifier.padding(8.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            LazyRow(
-                modifier = Modifier
-                    .height(250.dp)
-                    .fillMaxWidth()
-            ) {
-                items(state.book) { book ->
-                    CurrentlyReadingItem(book)
+            if(state.book.isEmpty()){
+                Text(
+                    text = "Currently you're not reading any book\nCurrently reading book will be displayed here",
+                    fontFamily = wdxllubrifont,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.DarkGray,
+                    fontSize = 24.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    textAlign = TextAlign.Center
+                )
+            }else{
+                LazyRow(
+                    modifier = Modifier
+                        .height(250.dp)
+                        .fillMaxWidth()
+                ) {
+                    items(state.book) { book ->
+                        CurrentlyReadingItem(book)
+                    }
                 }
             }
         }
