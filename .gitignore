@@ -1,2 +1,13 @@
+# Ignore build folders
 /build
+app/build
+
+# Ignore local properties
+local.properties
+
+# Ignore IDE files
+.idea/
+*.iml
+
+
 app\src\main\java\com\example\bookshelf\Common\Httpdetails.kt
